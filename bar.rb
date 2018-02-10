@@ -37,6 +37,10 @@ class Bar
     tab_total
   end
 
+  def get_payment(payment)
+    @till += payment
+  end
+
   def close_tab(guest)
     for tab in @tabs
       @tabs.delete(tab) if tab[:guest] == guest

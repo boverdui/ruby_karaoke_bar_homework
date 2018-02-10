@@ -46,25 +46,33 @@ class TestBar < MiniTest::Test
     assert_equal(10.00, @bar.till())
   end
 
-  def test_bar_open_tab()
+  def test_bar_opens_tab()
     @bar.open_tab(@guest_1)
     assert_equal([{guest: @guest_1, drinks: []}], @bar.tabs())
   end
 
-  def test_add_drink_to_tab()
+  def test_bar_adds_drink_to_tab()
     @bar.open_tab(@guest_1)
     @bar.add_to_tab(@guest_1, @drink_1)
     assert_equal([{guest: @guest_1, drinks: [@drink_1]}], @bar.tabs())
   end
 
-  def test_calculate_tab_total()
+  def test_bar_calculates_tab_total()
     @bar.open_tab(@guest_1)
     @bar.add_to_tab(@guest_1, @drink_1)
     @bar.add_to_tab(@guest_1, @drink_1)
     assert_equal(6.00, @bar.tab_total(@guest_1))
   end
 
-  def test_close_tab()
+  def test_bar_gets_payment()
+    @bar.open_tab(@guest_1)
+    @bar.add_to_tab(@guest_1, @drink_1)
+    @bar.add_to_tab(@guest_1, @drink_1)
+    @bar.get_payment(@bar.tab_total(@guest_1))
+    assert_equal(6.00, @bar.till())
+  end
+
+  def test_bar_closes_tab()
     @bar.open_tab(@guest_1)
     @bar.open_tab(@guest_2)
     @bar.add_to_tab(@guest_1, @drink_1)
