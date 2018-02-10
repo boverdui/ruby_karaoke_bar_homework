@@ -13,7 +13,8 @@ class Guest
   end
 
   def pay_entry(bar)
-    @wallet -= bar.entry_fee if sufficient_funds?(bar.entry_fee())
+    fee = bar.entry_fee()
+    @wallet -= fee if sufficient_funds?(fee)
   end
 
   def fav_on_playlist(room)
@@ -21,15 +22,8 @@ class Guest
   end
 
   def pay_tab(bar)
-    tab_total = 0.00
-    for tab in bar.tabs()
-      if tab[:guest] == self
-        for drink in tab[:drinks]
-          tab_total += drink.price
-        end
-      end
-    end
-    @wallet -= tab_total if sufficient_funds?(tab_total)
+    @tab = bar.tab_total(self)
+    @wallet -= @tab if sufficient_funds?(@tab)
   end
 
 end

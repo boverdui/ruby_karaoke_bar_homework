@@ -32,7 +32,7 @@ class TestRoom < MiniTest::Test
     assert_equal([@song_1, @song_2], @room_1.playlist())
   end
 
-  def test_remove_song_from_room()
+  def test_remove_song_from_playlist()
     @room_1.add_song(@song_2)
     @room_1.remove_song(@song_2)
     assert_equal([@song_1], @room_1.playlist())

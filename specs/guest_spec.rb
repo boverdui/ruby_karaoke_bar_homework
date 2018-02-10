@@ -12,11 +12,20 @@ class TestGuest < MiniTest::Test
     @song_2 = Song.new("Amarillo", "Tony Christie")
     @song_3 = Song.new("Believe", "Cher")
     @guest_1 = Guest.new("Bert", 100.00, @song_1)
-    @guest_2 = Guest.new("Alex", 5.00, @song_2)
-    @guest_3 = Guest.new("Amy", 20.00, @song_3)
+    @guest_2 = Guest.new("Alex", 5.00, @song_2) #insufficient funds
+    @guest_3 = Guest.new("Amy", 20.00, @song_3) #song not in playlist
     @room_1 = Room.new("Room 1", 2, [@song_1])
     @drink_1 = Drink.new("beer", 3.00)
-    tabs = [{guest: @guest_1, drinks: [@drink_1, @drink_1]}, {guest: @guest_2, drinks: [@drink_1, @drink_1]}]
+    tabs = [
+      {
+        guest: @guest_1,
+        drinks: [@drink_1, @drink_1]
+      },
+      {
+        guest: @guest_2,
+        drinks: [@drink_1, @drink_1]
+      }
+    ]
     @bar = Bar.new("CodeClan Caraoke Bar", 10.00, [@room_1], [@drink_1], 0.00, tabs)
   end
 
@@ -40,12 +49,12 @@ class TestGuest < MiniTest::Test
     assert_equal(false, @guest_2.sufficient_funds?(@bar.entry_fee()))
   end
 
-  def test_customer_can_gain_entry__yes()
+  def test_customer_can_gain_entry__sufficient_funds()
     @guest_1.pay_entry(@bar)
     assert_equal(90.00, @guest_1.wallet())
   end
 
-  def test_customer_can_gain_entry__no()
+  def test_customer_can_gain_entry__insufficient_funds()
     @guest_2.pay_entry(@bar)
     assert_equal(5.00, @guest_2.wallet())
   end

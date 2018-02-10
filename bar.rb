@@ -25,6 +25,18 @@ class Bar
     end
   end
 
+  def tab_total(guest)
+    tab_total = 0.00
+    for tab in @tabs
+      if tab[:guest] == guest
+        for drink in tab[:drinks]
+          tab_total += drink.price()
+        end
+      end
+    end
+    tab_total
+  end
+
   def close_tab(guest)
     for tab in @tabs
       @tabs.delete(tab) if tab[:guest] == guest
